@@ -11,16 +11,28 @@ namespace Dealership.Controllers
         
 
         private readonly ILogger<CarController> _logger;
+        private LinkGenerator _linkGenerator;
 
-        public CarController(ILogger<CarController> logger)
+        public CarController(ILogger<CarController> logger, LinkGenerator linkGenerator)
         {
             _logger = logger;
+            _linkGenerator = linkGenerator;
         }
 
         [HttpGet(Name = "GetCars")]
-        public IEnumerable<Car> GetCars()
+        public IActionResult GetCars()
         {
-            return DataStorage.Instance.DataBaseCarsSym.ToArray();
+            var lw_cars = DataStorage.Instance.GetCars().Select(car => new LinkWrapper<Car>(car)).ToList();
+
+            foreach (LinkWrapper<Car> lw_car in lw_cars)
+            {
+                var carLinks = CreateLinksForCar(lw_car.Object.VIN);
+                lw_car.Links.AddRange(carLinks);
+
+            }
+
+            var carWrapper = new LinkCollectionWrapper<Car>(lw_cars);
+            return Ok(CreateLinksForCars(carWrapper));
         }
 
         [HttpPost(Name = "AddCar")]
@@ -32,16 +44,20 @@ namespace Dealership.Controllers
                 return BadRequest("Fields should not be empty");
             }
             car.VIN = car.VIN.ToUpper();
-            for (int i = 0; i < DataStorage.Instance.DataBaseCarsSym.Count; i++)
+            for (int i = 0; i < DataStorage.Instance.GetCars().Count; i++)
             {
-                if (DataStorage.Instance.DataBaseCarsSym[i].VIN == car.VIN)
+                if (DataStorage.Instance.GetCars()[i].VIN == car.VIN)
                 {
                     return BadRequest("Car already registered");
                 }
             }
             car.Model = car.Model.ToUpper();
-            DataStorage.Instance.DataBaseCarsSym.Add(car);
-            return Ok("Car registered");
+            DataStorage.Instance.CreateCar(car);
+
+            var carWrapper = new LinkWrapper<Car>(car);
+            carWrapper.Links.AddRange(CreateLinksForCar(carWrapper.Object.VIN));
+
+            return Ok(carWrapper);
         }
 
         [HttpPut]
@@ -58,9 +74,9 @@ namespace Dealership.Controllers
 
             int found = -1;
 
-            for(int i = 0; i < DataStorage.Instance.DataBaseCarsSym.Count; i++)
+            for(int i = 0; i < DataStorage.Instance.GetCars().Count; i++)
             {
-                if (DataStorage.Instance.DataBaseCarsSym[i].VIN == car.VIN)
+                if (DataStorage.Instance.GetCars()[i].VIN == car.VIN)
                 {
                     found = i;
                     break;
@@ -72,8 +88,12 @@ namespace Dealership.Controllers
                 return BadRequest("Car with given VIN not registered");
             }
             car.Model = car.Model.ToUpper();
-            DataStorage.Instance.DataBaseCarsSym[found] = car;
-            return Ok("Car updated");
+            DataStorage.Instance.GetCars()[found] = car;
+
+            var carWrapper = new LinkWrapper<Car>(car);
+            carWrapper.Links.AddRange(CreateLinksForCar(carWrapper.Object.VIN));
+
+            return Ok(carWrapper);
         }
 
         [HttpDelete]
@@ -82,9 +102,9 @@ namespace Dealership.Controllers
         {
             int found = -1;
 
-            for (int i = 0; i < DataStorage.Instance.DataBaseCarsSym.Count; i++)
+            for (int i = 0; i < DataStorage.Instance.GetCars().Count; i++)
             {
-                if (DataStorage.Instance.DataBaseCarsSym[i].VIN == VIN)
+                if (DataStorage.Instance.GetCars()[i].VIN == VIN)
                 {
                     found = i;
                     break;
@@ -95,8 +115,31 @@ namespace Dealership.Controllers
             {
                 return BadRequest("Car with given VIN not registered");
             }
-            DataStorage.Instance.DataBaseCarsSym.RemoveAt(found);
+            DataStorage.Instance.GetCars().RemoveAt(found);
             return Ok("Car removed");
         }
+        private IEnumerable<Link> CreateLinksForCar(string VIN, string fields = "")
+        {
+            var links = new List<Link>
+            {
+                new Link(_linkGenerator.GetUriByAction(HttpContext, nameof(Delete), values: new { VIN }),
+                "delete_car",
+                "DELETE"),
+                new Link(_linkGenerator.GetUriByAction(HttpContext, nameof(Update), values: new { VIN }),
+                "update_car",
+                "PUT")
+            };
+            return links;
+        }
+
+        private LinkCollectionWrapper<Car> CreateLinksForCars(LinkCollectionWrapper<Car> carsWrapper)
+        {
+            carsWrapper.Links.Add(new Link(_linkGenerator.GetUriByAction(HttpContext, nameof(GetCars), values: new { }),
+                    "self",
+                    "GET"));
+            return carsWrapper;
+        }
     }
+
+    
 }

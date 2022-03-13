@@ -6,7 +6,7 @@ namespace Dealership.Data
     {
 
         private static readonly DataStorage instance = new DataStorage();
-        public List<Car> DataBaseCarsSym { get; set; }
+        private List<Car> DataBaseCarsSym;
         public List<Transaction> DataBaseTransactionSym { get; set; }
         static DataStorage()
         {
@@ -37,6 +37,16 @@ namespace Dealership.Data
             {
                 return instance;
             }
+        }
+
+        public List<Car> GetCars()
+        {
+            return DataBaseCarsSym;
+        }
+
+        public void CreateCar(Car car)
+        {
+            DataBaseCarsSym.Add(car);
         }
     }
 }

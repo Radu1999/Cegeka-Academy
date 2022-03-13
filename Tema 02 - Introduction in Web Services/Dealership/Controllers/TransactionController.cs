@@ -28,9 +28,9 @@ namespace Dealership.Controllers
             int found = -1;
 
             transaction.CarModel = transaction.CarModel.ToUpper();
-            for(int i = 0; i < DataStorage.Instance.DataBaseCarsSym.Count; i++)
+            for(int i = 0; i < DataStorage.Instance.GetCars().Count; i++)
             {
-                var car = DataStorage.Instance.DataBaseCarsSym[i];
+                var car = DataStorage.Instance.GetCars()[i];
                 if(car.Model == transaction.CarModel)
                 {
                     found = i;
@@ -42,7 +42,7 @@ namespace Dealership.Controllers
             {
                 return BadRequest("Model not in stock");
             }
-            DataStorage.Instance.DataBaseCarsSym.RemoveAt(found);
+            DataStorage.Instance.GetCars().RemoveAt(found);
             DataStorage.Instance.DataBaseTransactionSym.Add(transaction);
 
             return Ok("Car purchased");
