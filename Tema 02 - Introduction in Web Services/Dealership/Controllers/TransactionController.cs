@@ -56,12 +56,24 @@ namespace Dealership.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetTransactions([FromQuery] int? aquisitionYear)
+        public IActionResult GetTransactions([FromQuery] int? aquisitionYear, int? pageNumber, int? pageSize)
         {
             var transactions = aquisitionYear == null ? DataStorage.Instance.GetTransactions() :
                                DataStorage.Instance.GetTransactions()
                                         .FindAll(transaction => transaction.AquisitionDate.Year == aquisitionYear);
-
+            if(pageNumber != null)
+            {
+                if(pageSize == null)
+                {
+                    return BadRequest("You need to specify page size");
+                }
+                int offset = (int)((pageNumber - 1) * pageSize);
+                if (offset >= transactions.Count)
+                {
+                    return BadRequest("Invalid pagination");
+                }
+                transactions = transactions.GetRange(offset, Math.Min(transactions.Count - offset, (int)pageSize));
+            }
             var lw_transactions = transactions
                                 .Select(transaction => new LinkWrapper<Transaction>(transaction))
                                 .ToList();

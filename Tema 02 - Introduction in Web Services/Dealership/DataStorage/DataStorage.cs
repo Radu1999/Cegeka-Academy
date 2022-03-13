@@ -13,7 +13,24 @@ namespace Dealership.Data
         }
         private DataStorage()
         {
-            DataBaseTransactionsSym = new List<Transaction>();
+            DataBaseTransactionsSym = new List<Transaction>()
+            {
+                new Transaction("RADU",
+                    "CAMPULUNG",
+                    "DACIA-LOGAN-2007",
+                    DateTime.Now
+                ),
+                new Transaction("RADU",
+                    "CAMPULUNG",
+                    "DACIA-SPRING-2007",
+                    DateTime.Now
+                ),
+                new Transaction("RADU",
+                    "CAMPULUNG",
+                    "DACIA-DUSTER-2013",
+                    DateTime.Now
+                )
+            };
             DataBaseCarsSym = new List<Car>()
             {
                 new Car("5Z1SL65848Z411439",
