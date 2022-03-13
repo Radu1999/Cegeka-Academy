@@ -3,30 +3,30 @@ using Microsoft.AspNetCore.Mvc;
 namespace Tema_02___Introduction_in_Web_Services.Controllers
 {
     [ApiController]
-    [Route("api/cars")]
+    [Route("api/v1/cars")]
     public class DealershipController : ControllerBase
     {
         private static List<Car> DataBaseSym = new List<Car>
         {
-            new Car
+            new Car("5Z1SL65848Z411439")
                 {
                     Brand = "BMW",
                     Model = "X6",
                     YearModel = 2019
                 },
-             new Car
+             new Car("4Y1SL65848Z411439")
                  {
                      Brand = "AUDI",
                      Model = "Q7",
                      YearModel = 2020
                  },
-             new Car
+             new Car("4Y1SM65848Z411439")
                 {
                     Brand = "BMW",
                     Model = "X5",
                     YearModel = 2013
                 },
-              new Car
+              new Car("4Y1ML65848Z411439")
                 {
                     Brand = "MERCEDES",
                     Model = "AMG",
@@ -55,56 +55,79 @@ namespace Tema_02___Introduction_in_Web_Services.Controllers
             {
                 return BadRequest("You must insert brand and model");
             }
-            car.Brand = car.Brand.ToUpper();
-            car.Model = car.Model.ToUpper();
+
+            car.VIN = car.VIN.ToUpper();
+           
             foreach (Car c in DataBaseSym)
             {
-                if (c.Equals(car))
+                if (c.VIN == car.VIN)
                 {
                     return BadRequest("Car already registered");
                 }
             }
+
+            car.Brand = car.Brand.ToUpper();
+            car.Model = car.Model.ToUpper();
             DataBaseSym.Add(car);
             return Ok("Car registered");
         }
 
         [HttpPut]
-        [Route("{id}")]
-        public IActionResult Update(int id, Car car)
+        [Route("{VIN}")]
+        public IActionResult Update(string VIN, Car car)
         {
-            if (id >= DataBaseSym.Count)
-            {
-                return BadRequest("id not existent");
-            }
             if (car.Brand == null || car.Model == null || car.Model.Length == 0
                 || car.Brand.Length == 0)
             {
                 return BadRequest("You must insert brand and model");
             }
+            car.VIN = car.VIN.ToUpper();
+           
+
+            int found = -1;
+
+            for(int i = 0; i < DataBaseSym.Count; i++)
+            {
+                if (DataBaseSym[i].VIN == car.VIN)
+                {
+                    found = i;
+                    break;
+                }
+            }
+            
+            if(found == -1)
+            {
+                return BadRequest("Car with given VIN is not registered");
+            }
+
             car.Brand = car.Brand.ToUpper();
             car.Model = car.Model.ToUpper();
 
-            foreach (Car c in DataBaseSym)
-            {
-                if (c.Equals(car))
-                {
-                    return BadRequest("Car already registered");
-                }
-            }
-
-            DataBaseSym[id] = car;
-            return Ok(id);
+            DataBaseSym[found] = car;
+            return Ok("Car updated");
         }
 
         [HttpDelete]
-        [Route("{id}")]
-        public IActionResult Delete(int id)
+        [Route("{VIN}")]
+        public IActionResult Delete(string VIN)
         {
-            if (id >= DataBaseSym.Count)
+            int found = -1;
+            for (int i = 0; i < DataBaseSym.Count; i++)
             {
-                return BadRequest("id not existent");
+                if (DataBaseSym[i].VIN == VIN)
+                {
+                    found = i;
+                    break;
+                }
             }
-            DataBaseSym.RemoveAt(id);
+
+            if (found == -1)
+            {
+                return BadRequest("Car with given VIN is not registered");
+            }
+
+            DataBaseSym.RemoveAt(found);
+
             return Ok("Car removed");
         }
     }
