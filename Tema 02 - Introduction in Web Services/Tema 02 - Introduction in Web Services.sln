@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tema 02 - Introduction in Web Services", "Tema 02 - Introduction in Web Services\Tema 02 - Introduction in Web Services.csproj", "{AC9BAB77-F9DB-4EBB-813F-397E1789D733}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tema 02 - Introduction in Web Services", "Dealership\Tema 02 - Introduction in Web Services.csproj", "{AC9BAB77-F9DB-4EBB-813F-397E1789D733}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

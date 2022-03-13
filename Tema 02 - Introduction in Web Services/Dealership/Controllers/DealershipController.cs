@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Tema_02___Introduction_in_Web_Services.Controllers
+namespace Dealership.Controllers
 {
     [ApiController]
     [Route("api/cars")]

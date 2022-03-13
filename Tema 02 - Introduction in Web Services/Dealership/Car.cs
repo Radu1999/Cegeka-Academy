@@ -1,4 +1,4 @@
-namespace Tema_02___Introduction_in_Web_Services
+namespace Dealership
 {
     public class Car
     {
