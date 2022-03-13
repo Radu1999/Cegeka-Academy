@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Dealership.Models;
+using Dealership.Data;
 
 namespace Dealership.Controllers
 {
@@ -7,29 +8,7 @@ namespace Dealership.Controllers
     [Route("api/cars")]
     public class CarController : ControllerBase
     {
-        private static List<Car> DataBaseCarsSym = new List<Car>
-        {
-            new Car("5Z1SL65848Z411439",
-                    "BMW",
-                    "X6",
-                    2019
-                ),
-             new Car("5Z7SL65848Z411439",
-                     "AUDI",
-                     "Q7",
-                     2020
-                 ),
-             new Car("4Z1SL65848Z411439",
-                     "BMW",
-                     "X5",
-                     2013
-                ),
-              new Car("3Z1SL65853Z411439",
-                      "MERCEDES",
-                      "AMG",
-                      2021
-                )
-        };
+        
 
         private readonly ILogger<CarController> _logger;
 
@@ -41,7 +20,7 @@ namespace Dealership.Controllers
         [HttpGet(Name = "GetCars")]
         public IEnumerable<Car> GetCars()
         {
-            return DataBaseCarsSym.ToArray();
+            return DataStorage.Instance.DataBaseCarsSym.ToArray();
         }
 
         [HttpPost(Name = "AddCar")]
@@ -53,9 +32,9 @@ namespace Dealership.Controllers
                 return BadRequest("Fields should not be empty");
             }
             car.VIN = car.VIN.ToUpper();
-            for (int i = 0; i < DataBaseCarsSym.Count; i++)
+            for (int i = 0; i < DataStorage.Instance.DataBaseCarsSym.Count; i++)
             {
-                if (DataBaseCarsSym[i].VIN == car.VIN)
+                if (DataStorage.Instance.DataBaseCarsSym[i].VIN == car.VIN)
                 {
                     return BadRequest("Car already registered");
                 }
@@ -63,7 +42,7 @@ namespace Dealership.Controllers
 
             car.Brand = car.Brand.ToUpper();
             car.Model = car.Model.ToUpper();
-            DataBaseCarsSym.Add(car);
+            DataStorage.Instance.DataBaseCarsSym.Add(car);
             return Ok("Car registered");
         }
 
@@ -81,9 +60,9 @@ namespace Dealership.Controllers
 
             int found = -1;
 
-            for(int i = 0; i < DataBaseCarsSym.Count; i++)
+            for(int i = 0; i < DataStorage.Instance.DataBaseCarsSym.Count; i++)
             {
-                if (DataBaseCarsSym[i].VIN == car.VIN)
+                if (DataStorage.Instance.DataBaseCarsSym[i].VIN == car.VIN)
                 {
                     found = i;
                     break;
@@ -97,7 +76,7 @@ namespace Dealership.Controllers
 
             car.Brand = car.Brand.ToUpper();
             car.Model = car.Model.ToUpper();
-            DataBaseCarsSym[found] = car;
+            DataStorage.Instance.DataBaseCarsSym[found] = car;
             return Ok("Car updated");
         }
 
@@ -107,9 +86,9 @@ namespace Dealership.Controllers
         {
             int found = -1;
 
-            for (int i = 0; i < DataBaseCarsSym.Count; i++)
+            for (int i = 0; i < DataStorage.Instance.DataBaseCarsSym.Count; i++)
             {
-                if (DataBaseCarsSym[i].VIN == VIN)
+                if (DataStorage.Instance.DataBaseCarsSym[i].VIN == VIN)
                 {
                     found = i;
                     break;
@@ -120,7 +99,7 @@ namespace Dealership.Controllers
             {
                 return BadRequest("Car with given VIN not registered");
             }
-            DataBaseCarsSym.RemoveAt(found);
+            DataStorage.Instance.DataBaseCarsSym.RemoveAt(found);
             return Ok("Car removed");
         }
     }
