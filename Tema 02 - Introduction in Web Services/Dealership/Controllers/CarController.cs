@@ -137,6 +137,10 @@ namespace Dealership.Controllers
             carsWrapper.Links.Add(new Link(_linkGenerator.GetUriByAction(HttpContext, nameof(GetCars), values: new { }),
                     "self",
                     "GET"));
+            carsWrapper.Links.Add(new Link(_linkGenerator.GetUriByAction(HttpContext, nameof(GetCars), values: new { }),
+                    "add_car",
+                    "POST"));
+
             return carsWrapper;
         }
     }
