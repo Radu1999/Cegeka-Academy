@@ -27,7 +27,7 @@ namespace Dealership.Controllers
         public IActionResult AddCar(Car car)
         {
             if (car.Model.Length == 0
-                || car.Brand.Length == 0 || car.VIN.Length == 0)
+                || car.VIN.Length == 0)
             {
                 return BadRequest("Fields should not be empty");
             }
@@ -39,8 +39,6 @@ namespace Dealership.Controllers
                     return BadRequest("Car already registered");
                 }
             }
-
-            car.Brand = car.Brand.ToUpper();
             car.Model = car.Model.ToUpper();
             DataStorage.Instance.DataBaseCarsSym.Add(car);
             return Ok("Car registered");
@@ -51,7 +49,7 @@ namespace Dealership.Controllers
         public IActionResult Update(string VIN, Car car)
         {
             if (car.Model.Length == 0
-                || car.Brand.Length == 0 || car.VIN.Length == 0)
+                || car.VIN.Length == 0)
             {
                 return BadRequest("Fields should not be empty");
             }
@@ -73,8 +71,6 @@ namespace Dealership.Controllers
             {
                 return BadRequest("Car with given VIN not registered");
             }
-
-            car.Brand = car.Brand.ToUpper();
             car.Model = car.Model.ToUpper();
             DataStorage.Instance.DataBaseCarsSym[found] = car;
             return Ok("Car updated");

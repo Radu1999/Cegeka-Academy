@@ -18,7 +18,7 @@ namespace Dealership.Controllers
         [HttpPost]
         public IActionResult buyCar(Transaction transaction)
         {
-            if(transaction.CarVIN.Length == 0 || 
+            if(transaction.CarModel.Length == 0 || 
                 transaction.Name.Length == 0 ||
                 transaction.Address.Length == 0)
             {
@@ -26,10 +26,12 @@ namespace Dealership.Controllers
             }
 
             int found = -1;
+
+            transaction.CarModel = transaction.CarModel.ToUpper();
             for(int i = 0; i < DataStorage.Instance.DataBaseCarsSym.Count; i++)
             {
                 var car = DataStorage.Instance.DataBaseCarsSym[i];
-                if(car.VIN == transaction.CarVIN)
+                if(car.Model == transaction.CarModel)
                 {
                     found = i;
                     break;
@@ -38,7 +40,7 @@ namespace Dealership.Controllers
             }
             if(found == -1)
             {
-                return BadRequest("Car with given VIN is not registered");
+                return BadRequest("Model not in stock");
             }
             DataStorage.Instance.DataBaseCarsSym.RemoveAt(found);
             DataStorage.Instance.DataBaseTransactionSym.Add(transaction);

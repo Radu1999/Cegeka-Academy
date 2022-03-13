@@ -17,24 +17,16 @@ namespace Dealership.Data
             DataBaseCarsSym = new List<Car>()
             {
                 new Car("5Z1SL65848Z411439",
-                    "BMW",
-                    "X6",
-                    2019
+                    "BMW-X6-2019"
                 ),
              new Car("5Z7SL65848Z411439",
-                     "AUDI",
-                     "Q7",
-                     2020
+                     "AUDI-Q7-2020"
                  ),
              new Car("4Z1SL65848Z411439",
-                     "BMW",
-                     "X5",
-                     2013
+                     "BMW-X5-2013"
                 ),
               new Car("3Z1SL65853Z411439",
-                      "MERCEDES",
-                      "AMG",
-                      2021
+                      "MERCEDES-AMG-2021"
                 )
             };
 
