@@ -1,6 +1,6 @@
 ﻿using Dealership.Models;
 
-namespace Dealership.Data
+namespace Dealership.Wrappers.Linking
 {
     public class LinkResourceBase
     {

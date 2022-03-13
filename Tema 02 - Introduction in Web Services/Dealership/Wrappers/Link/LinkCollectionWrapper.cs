@@ -1,5 +1,5 @@
 ﻿
-namespace Dealership.Data
+namespace Dealership.Wrappers.Linking
 {
     public class LinkCollectionWrapper<T> : LinkResourceBase
     {

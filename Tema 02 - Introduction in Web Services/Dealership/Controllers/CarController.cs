@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Dealership.Models;
 using Dealership.Data;
+using Dealership.Wrappers.Linking;
 
 namespace Dealership.Controllers
 {
