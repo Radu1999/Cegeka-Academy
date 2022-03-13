@@ -56,9 +56,13 @@ namespace Dealership.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetTransactions()
+        public IActionResult GetTransactions([FromQuery] int? aquisitionYear)
         {
-            var lw_transactions = DataStorage.Instance.GetTransactions()
+            var transactions = aquisitionYear == null ? DataStorage.Instance.GetTransactions() :
+                               DataStorage.Instance.GetTransactions()
+                                        .FindAll(transaction => transaction.AquisitionDate.Year == aquisitionYear);
+
+            var lw_transactions = transactions
                                 .Select(transaction => new LinkWrapper<Transaction>(transaction))
                                 .ToList();
             
