@@ -32,8 +32,8 @@ namespace Dealership.Controllers
 
             }
 
-            var carWrapper = new LinkCollectionWrapper<Car>(lw_cars);
-            return Ok(CreateLinksForCars(carWrapper));
+            var carsWrapper = new LinkCollectionWrapper<Car>(lw_cars);
+            return Ok(CreateLinksForCars(carsWrapper));
         }
 
         [HttpPost(Name = "AddCar")]

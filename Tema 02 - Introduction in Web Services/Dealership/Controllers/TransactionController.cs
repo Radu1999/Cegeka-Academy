@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Dealership.Models;
 using Dealership.Data;
+using Dealership.Wrappers.Linking; 
 
 namespace Dealership.Controllers
 {
@@ -9,14 +10,16 @@ namespace Dealership.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly ILogger<TransactionController> _logger;
+        private LinkGenerator _linkGenerator;
 
-        public TransactionController(ILogger<TransactionController> logger)
+        public TransactionController(ILogger<TransactionController> logger, LinkGenerator linkGenerator)
         {
             _logger = logger;
+            _linkGenerator = linkGenerator;
         }
 
         [HttpPost]
-        public IActionResult buyCar(Transaction transaction)
+        public IActionResult BuyCar(Transaction transaction)
         {
             if(transaction.CarModel.Length == 0 || 
                 transaction.Name.Length == 0 ||
@@ -42,16 +45,37 @@ namespace Dealership.Controllers
             {
                 return BadRequest("Model not in stock");
             }
-            DataStorage.Instance.GetCars().RemoveAt(found);
-            DataStorage.Instance.DataBaseTransactionSym.Add(transaction);
 
-            return Ok("Car purchased");
+            transaction.Name = transaction.Name.ToUpper();
+            transaction.Address = transaction.Address.ToUpper();
+
+            DataStorage.Instance.GetCars().RemoveAt(found);
+            DataStorage.Instance.CreateTransaction(transaction);
+
+            return Ok(transaction);
         }
 
         [HttpGet]
-        public IEnumerable<Transaction> getTransactions()
+        public IActionResult GetTransactions()
         {
-            return DataStorage.Instance.DataBaseTransactionSym.ToArray();
+            var lw_transactions = DataStorage.Instance.GetTransactions()
+                                .Select(transaction => new LinkWrapper<Transaction>(transaction))
+                                .ToList();
+            
+            var transactionsWrapper = new LinkCollectionWrapper<Transaction>(lw_transactions);
+            return Ok(CreateLinksForTransactions(transactionsWrapper));
+        }
+
+        private LinkCollectionWrapper<Transaction> CreateLinksForTransactions(LinkCollectionWrapper<Transaction> carsWrapper)
+        {
+            carsWrapper.Links.Add(new Link(_linkGenerator.GetUriByAction(HttpContext, nameof(GetTransactions), values: new { }),
+                    "self",
+                    "GET"));
+            carsWrapper.Links.Add(new Link(_linkGenerator.GetUriByAction(HttpContext, nameof(BuyCar), values: new { }),
+                    "add_transaction",
+                    "POST"));
+
+            return carsWrapper;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Dealership.Controllers
 
         private readonly ILogger<CarController> _logger;
 
-        public DealershipController(ILogger<CarController> logger)
+        public DealershipController(ILogger<CarController> logger, LinkGenerator linkGenerator)
         {
             _logger = logger;
         }
