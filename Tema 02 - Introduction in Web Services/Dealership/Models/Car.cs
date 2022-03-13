@@ -1,12 +1,24 @@
-namespace Dealership
+namespace Dealership.Models
 {
     public class Car
     {
-        public string? Brand { get; set; }
+        public Car(string vIN, string brand, string model, int yearModel)
+        {
+            Brand = brand;
+            YearModel = yearModel;
+            Model = model;
+            VIN = vIN;
+        }
+
+        public string Brand { get; set; }
 
         public int YearModel { get; set; }
 
-        public string? Model { get; set; }
+        public string Model { get; set; }
+
+        public string VIN { get; set; }
+
+        
 
         public override bool Equals(object? obj)
         {
