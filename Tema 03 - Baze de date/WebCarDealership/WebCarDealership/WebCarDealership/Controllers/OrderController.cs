@@ -45,9 +45,10 @@ namespace WebCarDealership.Controllers
                 Quantity = model.Quantity,
                 OrderAmount = model.Quantity * offer.UnitPrice
             };
-           
-            propagateAmount(dbOrder);
+
             _dbContext.Orders.Add(dbOrder);
+
+            var customer = await _dbContext.Customers.FindAsync(dbOrder.CustomerId);
 
             int numberOfRecordsAffected = await _dbContext.SaveChangesAsync();
             if (numberOfRecordsAffected == 0)
@@ -69,16 +70,5 @@ namespace WebCarDealership.Controllers
             return Ok(orders);
         }
 
-        private async void propagateAmount(Order order)
-        {
-            if(order.InvoiceId != null)
-            {
-                var invoice = await _dbContext.Invoices.FindAsync(order.InvoiceId);
-                if(invoice != null)
-                {
-                    invoice.Amount += order.OrderAmount;
-                }
-            }
-        }
     }
 }

@@ -8,6 +8,10 @@ namespace CarDealership.Data.Models
 {
     public class CarOffer
     {
+        public CarOffer()
+        {
+            this.Orders = new List<Order>();
+        }
         public int Id { get; set; }
 
         public string Make { get; set; }

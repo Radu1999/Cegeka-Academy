@@ -33,11 +33,30 @@ namespace WebCarDealership.Controllers
                 InvoiceNumber = invoice.InvoiceNumber,
             };
 
+            dbModel.Amount = await CalculateAmount(dbModel);
+
             _dbContext.Invoices.Add(dbModel);
 
             await _dbContext.SaveChangesAsync();
 
             return Created(Request.GetDisplayUrl(), dbModel);
+        }
+
+        private async Task<decimal> CalculateAmount(Invoice invoice)
+        {
+            var customer = await _dbContext.Customers.Include(c => c.Orders).FirstAsync(c => c.Id == invoice.CustomerId);
+            if(customer == null)
+            {
+                return 0;
+            }
+            decimal amount = 0;
+            foreach(Order order in customer.Orders)
+            {
+                var offer = await _dbContext.CarOffers.FindAsync(order.CarOfferId);
+                amount += order.Quantity * offer.UnitPrice;
+            }
+            return amount;
+
         }
     }
 }
