@@ -18,5 +18,7 @@ namespace CarDealership.Data.Models
         [Required]
         [Range(0, 10000)]
         public int AvailableStock { get; set; }
+
+        public int? Id;
     }
 }

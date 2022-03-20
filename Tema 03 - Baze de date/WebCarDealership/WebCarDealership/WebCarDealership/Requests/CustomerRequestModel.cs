@@ -12,5 +12,7 @@ namespace WebCarDealership.Requests
         public string Email { get; set; }
         
         public ICollection<Order>? Orders { get; set; }
+
+        public int? Id { get; set; }
     }
 }

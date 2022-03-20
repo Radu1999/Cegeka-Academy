@@ -47,5 +47,49 @@ namespace CarDealership.Controllers
 
             return Created(Request.GetDisplayUrl(), dbModel);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] CarOfferRequestModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var offer = await _dbContext.CarOffers.FirstOrDefaultAsync(offer => (model.Id != null && offer.Id == model.Id));
+            if (offer == null)
+            {
+                offer = new CarOffer
+                {
+                    Make = model.Make,
+                    Model = model.Model,
+                    AvailableStock= model.AvailableStock
+                };
+                _dbContext.CarOffers.Add(offer);
+            }
+            else
+            {
+                offer.Make = model.Make;
+                offer.Model = model.Model;
+                offer.AvailableStock = model.AvailableStock;
+            }
+
+            await _dbContext.SaveChangesAsync();
+            return Ok(offer);
+        }
+
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int Id)
+        {
+            var offer = await _dbContext.CarOffers.FindAsync(Id);
+            if (offer == null)
+            {
+                return NotFound();
+            }
+            _dbContext.CarOffers.Remove(offer);
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(offer);
+        }
     }
 }

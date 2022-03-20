@@ -42,14 +42,13 @@ namespace WebCarDealership.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] CustomerRequestModel model)
         {
-            var customer = await _dbContext.Customers.FirstOrDefaultAsync(customer => customer.Email == model.Email);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var customer = await _dbContext.Customers.FirstOrDefaultAsync(customer => (model.Id != null && customer.Id == model.Id));
             if(customer == null)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
                 customer = new Customer
                 {
                     Name = model.Name,
@@ -65,6 +64,27 @@ namespace WebCarDealership.Controllers
             }
 
             await _dbContext.SaveChangesAsync();
+            return Ok(customer);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var customers = await _dbContext.Customers.ToListAsync();
+            return Ok(customers);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int Id)
+        {
+            var customer = await _dbContext.Customers.FindAsync(Id);
+            if(customer == null)
+            {
+                return NotFound();
+            }
+            _dbContext.Customers.Remove(customer);
+            await _dbContext.SaveChangesAsync();
+
             return Ok(customer);
         }
     }
