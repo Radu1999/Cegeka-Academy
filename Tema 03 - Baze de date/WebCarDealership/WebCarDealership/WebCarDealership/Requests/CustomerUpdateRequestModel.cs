@@ -3,15 +3,17 @@ using CarDealership.Data.Models;
 
 namespace WebCarDealership.Requests
 {
-    public class CustomerRequestModel
-    {
+    public class CustomerUpdateRequestModel
+    {   
         [Required]
-        public string Name { get; set; }
+        public int Id { get; set; }
 
-        [Required]
-        public string Email { get; set; }
-        
+        public string? Name { get; set; }
+
+        public string? Email { get; set; }
+
         public ICollection<Order>? Orders { get; set; }
 
+        
     }
 }

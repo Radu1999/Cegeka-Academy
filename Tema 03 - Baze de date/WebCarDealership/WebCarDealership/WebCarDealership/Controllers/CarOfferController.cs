@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebCarDealership;
+using WebCarDealership.Requests;
 
 namespace CarDealership.Controllers
 {
@@ -27,6 +28,7 @@ namespace CarDealership.Controllers
         }
 
         [HttpPost]
+        [Route("Insert")]
         public async Task<IActionResult> Post([FromBody] CarOfferRequestModel model)
         {
             if (!ModelState.IsValid)
@@ -50,28 +52,32 @@ namespace CarDealership.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] CarOfferRequestModel model)
+        public async Task<IActionResult> Put([FromBody] CarOfferUpdateRequestModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var offer = await _dbContext.CarOffers.FirstOrDefaultAsync(offer => (model.Id != null && offer.Id == model.Id));
+            var offer = await _dbContext.CarOffers.FirstOrDefaultAsync(offer => (offer.Id == model.Id));
             if (offer == null)
             {
-                offer = new CarOffer
-                {
-                    Make = model.Make,
-                    Model = model.Model,
-                    AvailableStock= model.AvailableStock
-                };
-                _dbContext.CarOffers.Add(offer);
+               return NotFound();
             }
-            else
+            if(model.Make != null)
             {
                 offer.Make = model.Make;
+            }
+            if(model.AvailableStock != null)
+            {
+                offer.AvailableStock = (int)model.AvailableStock;
+            }
+            if(model.Model != null)
+            {
                 offer.Model = model.Model;
-                offer.AvailableStock = model.AvailableStock;
+            }
+            if(model.UnitPrice != null)
+            {
+                offer.UnitPrice = (int)model.UnitPrice;
             }
 
             await _dbContext.SaveChangesAsync();
@@ -79,10 +85,11 @@ namespace CarDealership.Controllers
         }
 
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete(int Id)
+        [HttpPost]
+        [Route("Delete")]
+        public async Task<IActionResult> Delete([FromBody] CarOfferUpdateRequestModel model)
         {
-            var offer = await _dbContext.CarOffers.FindAsync(Id);
+            var offer = await _dbContext.CarOffers.FindAsync(model.Id);
             if (offer == null)
             {
                 return NotFound();

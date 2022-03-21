@@ -40,29 +40,27 @@ namespace WebCarDealership.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] CustomerRequestModel model)
+        public async Task<IActionResult> Put([FromBody] CustomerUpdateRequestModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var customer = await _dbContext.Customers.FirstOrDefaultAsync(customer => (model.Id != null && customer.Id == model.Id));
+            var customer = await _dbContext.Customers.FirstOrDefaultAsync(customer => (customer.Id == model.Id));
             if(customer == null)
             {
-                customer = new Customer
-                {
-                    Name = model.Name,
-                    Email = model.Email,
-                    Orders = model.Orders
-                };
-                _dbContext.Customers.Add(customer);
-            } else
-            {
-                customer.Orders = model.Orders;
-                customer.Name = model.Name;
-                customer.Email = model.Email;
+                return NotFound();
             }
 
+            if(model.Name != null)
+            {
+                customer.Name = model.Name;
+            }
+
+            if (model.Email != null)
+            {
+                customer.Email = model.Email;
+            }
             await _dbContext.SaveChangesAsync();
             return Ok(customer);
         }

@@ -22,6 +22,5 @@ namespace CarDealership.Data.Models
         [Required]
         public int UnitPrice { get; set; }
 
-        public int? Id;
     }
 }
