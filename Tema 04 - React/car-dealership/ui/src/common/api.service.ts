@@ -1,7 +1,14 @@
 import { CarModel } from "../models/car.model";
+import { CustomerModel } from "../models/customer.model";
+
 
 export function getCars(): Promise<CarModel[]> {
     return fetch('https://localhost:7198/CarOffer')
+        .then(r => r.json())
+}
+
+export function getCustomers(): Promise<CustomerModel[]> {
+    return fetch('https://localhost:7198/Customer')
         .then(r => r.json())
 }
 

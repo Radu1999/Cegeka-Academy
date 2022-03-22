@@ -50,11 +50,7 @@ function NewCar() {
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Discount</label>
-                    <input type="number"  step="0.1" className="form-control" placeholder="Discount in %" onChange={ev => {
-                        let value = parseFloat(ev.target.value);
-                        value /= 100;
-                        setDiscountPercentage(value);                        
-                    }}/>
+                    <input type="number"  step="0.1" className="form-control" placeholder="Discount in %" onChange={ev => setDiscountPercentage(Number(ev.target.value) / 100)}                 />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Image</label>
