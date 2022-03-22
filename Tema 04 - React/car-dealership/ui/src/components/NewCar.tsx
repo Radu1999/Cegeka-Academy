@@ -19,9 +19,10 @@ function NewCar() {
             model,
             availableStock,
             unitPrice,
+            image,
             discountPercentage,
-            image
         };
+        console.log(JSON.stringify(car));
         let resp = await postCar(car);
         console.log(resp);
        navigate('/caroffers', { replace: true });        
@@ -49,7 +50,11 @@ function NewCar() {
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Discount</label>
-                    <input type="number" className="form-control" placeholder="Discount in %" onChange={ev => setDiscountPercentage(parseFloat(ev.target.value) / 100.0)}/>
+                    <input type="number"  step="0.1" className="form-control" placeholder="Discount in %" onChange={ev => {
+                        let value = parseFloat(ev.target.value);
+                        value /= 100;
+                        setDiscountPercentage(value);                        
+                    }}/>
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Image</label>

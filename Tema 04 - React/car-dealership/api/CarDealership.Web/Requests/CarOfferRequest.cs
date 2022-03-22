@@ -17,5 +17,7 @@ namespace CarDealership.Web.Requests
         public decimal UnitPrice { get; set; }
 
         public string Image { get; set; }
+
+        public decimal DiscountPercentage { get; set; }
     }
 }

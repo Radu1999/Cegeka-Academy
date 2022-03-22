@@ -33,7 +33,8 @@ namespace CarDealership.Web.Controllers
                 Model = model.Model,
                 AvailableStock = model.AvailableStock,
                 UnitPrice = model.UnitPrice,
-                Image = model.Image ?? string.Empty
+                Image = model.Image ?? string.Empty,
+                DiscountPercentage = model.DiscountPercentage,
             };
 
             _dbContext.CarOffers.Add(dbModel);
