@@ -5,12 +5,12 @@ export function getCars(): Promise<CarModel[]> {
         .then(r => r.json())
 }
 
-export function postCar(car: CarModel) {
-    fetch('https://localhost:7198/CarOffer', {
+export async function postCar(car: CarModel): Promise<any> {
+    return fetch('https://localhost:7198/CarOffer', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(car)
-    })
+    }).then(r => r.json()).then(data => {return data});
 }

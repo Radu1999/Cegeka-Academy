@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { postCar } from "../common/api.service";
 import { CarModel } from "../models/car.model";
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function NewCar() {
 
@@ -8,17 +9,22 @@ function NewCar() {
     const [model, setModel] = useState('');
     const [availableStock, setAvailableStock] = useState(0);
     const [unitPrice, setUnitPrice] = useState(0);
+    const [image, setImage] = useState('');
+    const [discountPercentage, setDiscountPercentage] = useState(0);
+    let navigate = useNavigate();
 
-    function handleClick(): void {
+    async function handleClick(): Promise<void> {
         const car:CarModel = {
             make,
             model,
             availableStock,
             unitPrice,
-            discountPercentage:0,
-            image:''
+            discountPercentage,
+            image
         };
-        postCar(car);
+        let resp = await postCar(car);
+        console.log(resp);
+       navigate('/caroffers', { replace: true });        
     }
 
     return (
@@ -40,6 +46,14 @@ function NewCar() {
                 <div className="mb-3">
                     <label className="form-label">Price</label>
                     <input type="number" className="form-control" placeholder="Price" onChange={ev => setUnitPrice(Number(ev.target.value))}/>
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Discount</label>
+                    <input type="number" className="form-control" placeholder="Discount in %" onChange={ev => setDiscountPercentage(parseFloat(ev.target.value) / 100.0)}/>
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Image</label>
+                    <input type="text" className="form-control" placeholder="Image" onChange={ev => setImage(ev.target.value)}/>
                 </div>
                 <a href="#" className="btn btn-primary" onClick={() => handleClick()}>Save</a>
             </div>
