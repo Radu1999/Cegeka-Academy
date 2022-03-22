@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { postCar } from "../common/api.service";
 import { CarModel } from "../models/car.model";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function NewCar() {
 
@@ -11,7 +11,7 @@ function NewCar() {
     const [unitPrice, setUnitPrice] = useState(0);
     const [image, setImage] = useState('');
     const [discountPercentage, setDiscountPercentage] = useState(0);
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     async function handleClick(): Promise<void> {
         const car:CarModel = {
@@ -60,7 +60,7 @@ function NewCar() {
                     <label className="form-label">Image</label>
                     <input type="text" className="form-control" placeholder="Image" onChange={ev => setImage(ev.target.value)}/>
                 </div>
-                <a href="#" className="btn btn-primary" onClick={() => handleClick()}>Save</a>
+                <a className="btn btn-primary" onClick={() => handleClick()}>Save</a>
             </div>
         </>);
 }
