@@ -1,0 +1,31 @@
+.App {
+  text-align: center;
+}
+
+body {    
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.navigation-bar{
+  width: 300px;
+  position: fixed;
+  top: 0 !important;
+  height: 100%;
+  border-right: 1px solid lightgray;
+  background-color: #f8f9fa;
+}
+
+.main-content{ 
+  margin-left: 300px;
+}
+
+.nav-item{
+  padding:18px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.nav-item:hover{
+  background-color: #dee2e6;
+}
