@@ -24,5 +24,21 @@ namespace CarDealership.Web.Controllers
             return Ok(await _dbContext.Customers.ToListAsync());
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] CustomerRequestModel customer)
+        {
+            var dbModel = new Customer
+            {
+                Name = customer.Name,
+                Email = customer.Email,
+            };
+
+            _dbContext.Customers.Add(dbModel);
+
+            await _dbContext.SaveChangesAsync();
+
+            return Created(Request.GetDisplayUrl(), dbModel);
+        }
+
     }
 }

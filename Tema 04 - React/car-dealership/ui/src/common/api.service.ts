@@ -21,3 +21,14 @@ export async function postCar(car: CarModel): Promise<any> {
         body: JSON.stringify(car)
     }).then(r => r.json()).then(data => {return data});
 }
+
+export async function postCustomer(customer: CustomerModel): Promise<any> {
+    return fetch('https://localhost:7198/Customer', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(customer)
+    }).then(r => r.json()).then(data => {return data});
+}
+

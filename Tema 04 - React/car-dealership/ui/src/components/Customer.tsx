@@ -5,10 +5,15 @@ interface TProps{
 }
 
 function Customer(props: TProps){ 
+
+    const { customer } = props;
+
     return (
-        <div>
-            <h1>BRO</h1>
-        </div>
+
+        <tr>
+            <td>{customer.name}</td>
+            <td>{customer.email}</td>
+        </tr>
     )
 }
 

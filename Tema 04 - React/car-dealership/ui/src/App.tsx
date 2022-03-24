@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import CarOffers from './components/CarOffers';
 import Customers from './components/Customers';
 import NewCar from './components/NewCar';
+import NewCustomer from './components/NewCustomer';
 
 function MainLayout() {
   return (
@@ -29,6 +30,7 @@ function App() {
           </Route>
           <Route path="/newcar" element={<NewCar />}>
           </Route>
+          <Route path="/newcustomer" element={<NewCustomer />}></Route>
           <Route path="/" element={<div>Home</div>}>
           </Route>
         </Route>
