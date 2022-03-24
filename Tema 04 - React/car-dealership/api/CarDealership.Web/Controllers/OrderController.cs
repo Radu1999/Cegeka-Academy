@@ -32,6 +32,10 @@ namespace CarDealership.Web.Controllers
             }
 
             offer.AvailableStock -= model.Quantity;
+            if(offer.AvailableStock == 0)
+            {
+                _dbContext.CarOffers.Remove(offer);
+            }
 
             var dbOrder = new Order()
             {
