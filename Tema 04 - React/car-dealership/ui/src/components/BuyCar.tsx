@@ -12,16 +12,25 @@ function BuyCar() {
     const [quantity, setQuantity] = useState(0)
     const [customerId, setCustomerId] = useState(1)
     const [displayAlert, setDisplayAlert] = useState(0)
-    const location = useLocation();
+    const {state} = useLocation();
 
     useEffect(()=>{
         getCustomers().then(c => setCustomers(c))
     },[])
 
+
+    if(!state || !(state as any).model || !(state as any).make) {
+        return (
+            <h1>Bad access</h1>
+        )
+    }
+    
+
+
     async function handleClick() {
         const order : OrderModel = {
             customerId,
-            carOfferId: (location.state as any).id,
+            carOfferId: (state as any).id,
             quantity
         }
         let request = await postOrder(order);
@@ -42,13 +51,8 @@ function BuyCar() {
                 <></>
             }
             <h2>Buy</h2>
-            {
-                location.state &&(location.state as any).model && (location.state as any).make?
-                <>
-                    <h1>{(location.state as any).make} {(location.state as any).model}</h1>
-                </> :
-                <> </>
-            }
+
+            <h1>{(state as any).make} {(state as any).model}</h1>
 
             <div>
                 <div className="mb-3">
