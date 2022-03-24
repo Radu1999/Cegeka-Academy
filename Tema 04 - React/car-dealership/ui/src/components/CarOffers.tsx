@@ -3,7 +3,6 @@ import { getCars } from "../common/api.service";
 import { CarModel } from "../models/car.model";
 import Car from "./Car";
 import { useNavigate } from 'react-router-dom';
-
 //1. Props change
 //2. State change
 

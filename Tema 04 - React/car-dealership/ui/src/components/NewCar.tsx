@@ -22,10 +22,8 @@ function NewCar() {
             image,
             discountPercentage,
         };
-        console.log(JSON.stringify(car));
         let resp = await postCar(car);
-        console.log(resp);
-       navigate('/caroffers', { replace: true });        
+        navigate('/caroffers', { replace: true });        
     }
 
     return (

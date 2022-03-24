@@ -1,5 +1,6 @@
 import { CarModel } from "../models/car.model";
 import { CustomerModel } from "../models/customer.model";
+import { OrderModel } from "../models/order.model";
 
 
 export function getCars(): Promise<CarModel[]> {
@@ -30,5 +31,17 @@ export async function postCustomer(customer: CustomerModel): Promise<any> {
         },
         body: JSON.stringify(customer)
     }).then(r => r.json()).then(data => {return data});
+}
+
+export async function postOrder(order: OrderModel): Promise<any> {
+    return fetch('https://localhost:7198/Order', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(order)
+    }).then(response => response.json())
+    .then(data => data.status);
 }
 

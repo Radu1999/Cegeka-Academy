@@ -1,4 +1,5 @@
 import { CarModel } from "../models/car.model";
+import { useNavigate } from 'react-router-dom';
 
 interface TProps{
     car: CarModel;
@@ -13,6 +14,11 @@ function Car(props: TProps){
     const formatedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR' }).format(car.unitPrice);
     const formatedDiscountPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR' }).format(discountPrice);
     const discount = '-' +(car.discountPercentage * 100) + '%';
+    const navigate = useNavigate()
+
+    function handleBuyButton() {
+        navigate('/buycar', {state:{id: car.id, make : car.make, model : car.model}})
+    }
 
     return (
         <div className="card" style={{width: '18rem', margin:20, position:'relative'}}>
@@ -34,7 +40,7 @@ function Car(props: TProps){
                         <p className="card-text" style={{color:'red', fontWeight:'bold'}}>{formatedDiscountPrice}</p>
                     </>
                 }
-                <a href="#" className="btn btn-primary">Buy</a>
+                <button  className="btn btn-primary" onClick={() => handleBuyButton()} >Buy</button>
             </div>
         </div>
     )
