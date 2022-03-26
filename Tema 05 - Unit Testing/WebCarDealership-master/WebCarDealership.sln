@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebCarDealership", "WebCarD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarDealership.Data", "CarDealership.Data\CarDealership.Data.csproj", "{2E7A1B9A-AB79-4E1C-9146-2B8B6FC4F630}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{EE29637D-8F30-4940-9E07-87445457A1D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{5F38B9F5-F338-4B74-9ECD-977949CCECDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{2E7A1B9A-AB79-4E1C-9146-2B8B6FC4F630}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E7A1B9A-AB79-4E1C-9146-2B8B6FC4F630}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E7A1B9A-AB79-4E1C-9146-2B8B6FC4F630}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EE29637D-8F30-4940-9E07-87445457A1D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE29637D-8F30-4940-9E07-87445457A1D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE29637D-8F30-4940-9E07-87445457A1D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE29637D-8F30-4940-9E07-87445457A1D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F38B9F5-F338-4B74-9ECD-977949CCECDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F38B9F5-F338-4B74-9ECD-977949CCECDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F38B9F5-F338-4B74-9ECD-977949CCECDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F38B9F5-F338-4B74-9ECD-977949CCECDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
