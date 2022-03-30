@@ -13,6 +13,7 @@ export default function CustomerDetails() {
     return (<div>
         <h3>{customer.name}</h3>
         <h5>{customer.email}</h5>
+        
 
         
     </div>);
