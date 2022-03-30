@@ -397,3 +397,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+'Tema 06 - Clean Code'/RentalCars/.git
+'Tema 06 - Clean Code'/RentalCars/.gitignore
